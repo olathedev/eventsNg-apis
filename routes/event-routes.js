@@ -13,8 +13,10 @@ router.get('/discover/:id', discoverEventsSingle)
 
 
 // protected routes, for only logged in creators
+
+router.use(auth)
 router.route('/').get(getcreatedEvents).post(createEvent)
-router.route('/:id', auth).get(getCreatedEventsSingle).patch(updateEvent).delete(deleteEvent)
+router.route('/:id').get(getCreatedEventsSingle).patch(updateEvent).delete(deleteEvent)
 
 
 export default router

@@ -30,7 +30,6 @@ app.use(cors())
 app.use("/api/v1/eventsng/auth", authROutes)
 app.use("/api/v1/eventsng/events/", eventRoutes)
 
-
 app.use(notFound)
 app.use(errorhandler)
 
