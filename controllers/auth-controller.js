@@ -23,8 +23,6 @@ export const signup = async (req, res, next) => {
         const user = await User.create({ ...req.body, verificationToken })
 
         const sendMail = await deliverMail(user.fullname, user.email, user.verificationToken)
-
-        console.log(sendMail);
  
         res.status(StatusCodes.OK).json({message: "Success! check your email to verify account", email: user.email})
 
