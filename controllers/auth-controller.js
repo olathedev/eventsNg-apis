@@ -2,6 +2,8 @@ import User from "../models/auth-model.js";
 import { validate } from "../validators/user-validator.js";
 import { BadRequest, UnAuthorised } from "../errors/index.js"
 import { StatusCodes } from "http-status-codes";
+import crypto from "crypto"
+import deliverMail from "../utils/send-verification-email.js";
 
 // 
 // 
@@ -16,21 +18,16 @@ export const signup = async (req, res, next) => {
             throw new BadRequest(error)
         }
 
-        const verificationToken = '12345abc'
+        const verificationToken = crypto.randomBytes(40).toString("hex")
 
         const user = await User.create({ ...req.body, verificationToken })
 
+        const sendMail = await deliverMail(user.fullname, user.email, user.verificationToken)
 
-        res.status(StatusCodes.OK).json(
-            {
-                // user: {
-                //     fullname: user.fullname,
-                //     email: user.email,
+        console.log(sendMail);
+ 
+        res.status(StatusCodes.OK).json({message: "Success! check your email to verify account", email: user.email})
 
-                // }
-
-                user
-            })
     } catch (error) {
         next(error)
     }
@@ -83,7 +80,7 @@ export const signin = async (req, res, next) => {
         }
 
         if (!user.isVerified) {
-            return res.status(StatusCodes.OK).json({ message: `${user.email} is registered but not verified, verify account` })
+            throw new UnAuthorised(`${user.email} is registered but not verified, verify account`)
         }
 
         const matchPassword = await User.comparePassword(password, user.password)
