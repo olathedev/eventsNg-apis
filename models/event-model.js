@@ -13,7 +13,7 @@ const EventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    date: {
+    eventDate: {
         type: Date,
         required: true
     },
@@ -21,13 +21,17 @@ const EventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    seats: {
+    seatsAvailable: {
         type: String,
         default: "unlimited"
     },
+    createdBy: {
+        type: mongoose.Types.ObjectId,
+        required: true
+    }
     
 })
 
-const Event = mongoose.model(EventSchema, "event")
+const Event = mongoose.model("event", EventSchema)
 
 export default Event
