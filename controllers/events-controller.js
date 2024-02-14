@@ -84,11 +84,22 @@ export const updateEvent = async (req, res, next) => {
         if(!event) {
             throw new NotFound(`No event found with the id - ${id}`)
         }
-        res.status(StatusCodes.Ok).json({event})
+        res.status(StatusCodes.OK).json({event})
     } catch (error) {
         next(error)
     }
 }
+
 export const deleteEvent = async (req, res, next) => {
-    res.json("Discover events")
+    const {params: {id}, user: {userId}} = req
+
+    try {
+        const event = await Event.findOneAndDelete({_id: id, createdBy: userId})
+        if(!event) {
+            throw new NotFound(`No event found with the id - ${id}`)
+        }
+        res.status(StatusCodes.OK).json({message: "Deleted"})
+    } catch (error) {
+        next(error)
+    }
 }
