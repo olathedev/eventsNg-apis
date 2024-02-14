@@ -12,6 +12,10 @@ export const errorhandler = (err, req, res, next) => {
         customError.msg = `${Object.keys(err.keyValue)} already exists`
    }
 
+   if(err.name === 'CastError') {
+    customError.statusCode = StatusCodes.NOT_FOUND
+    customError.msg = `no resource found with the id ${err.value}`
+   }
 
     res.status(customError.statusCode).json({message: customError.msg})
     // res.status(500).json(err)

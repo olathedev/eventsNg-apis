@@ -6,8 +6,8 @@ const Schema = Joi.object({
     description: Joi.string().required().min(2).max(100),
     location: Joi.string().required().min(2).max(100),
     time: Joi.required(),
+    eventDate: Joi.required(),
     seatsAvailable: Joi.required(),
-    createdBy: Joi.required(),
 
 })
 

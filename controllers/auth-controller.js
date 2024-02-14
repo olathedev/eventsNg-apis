@@ -54,8 +54,9 @@ export const accountVerification = async (req, res, next) => {
             { isVerified: true, verificationToken: null },
             { new: true }
         )
+        const authToken = User.generateToken(newuser._id)
 
-        res.status(StatusCodes.OK).json({ newuser })
+        res.status(StatusCodes.OK).json({ newuser, authToken })
     } catch (error) {
         next(error)
     }
