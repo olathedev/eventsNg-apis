@@ -2,6 +2,7 @@ import { NOT_FOUND, StatusCodes } from "http-status-codes"
 import Event from "../models/event-model.js"
 import { validateEvent } from "../validators/event-validator.js"
 import { BadRequest, NotFound } from "../errors/index.js"
+import mongoose from "mongoose"
 
 export const discoverEvents = async (req, res, next) => {
 
@@ -102,4 +103,27 @@ export const deleteEvent = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+}
+
+export const eventStats = async (req, res) => {
+    let stats = await Event.aggregate([
+        {$match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) }},
+        {$group: {_id: '$isActive', count: {$sum: 1}}}
+    ])
+
+    stats = stats.reduce((acc, curr) => {
+        const {_id: title, count} = curr
+        acc[title] = count
+
+        return acc
+    }, {})
+
+    const defaultStats = {
+        isActive: stats.true || 0,
+        notActive: stats.false || 0
+
+    }
+    console.log(defaultStats);
+
+    res.status(200).json({defaultStats})
 }

@@ -25,12 +25,17 @@ const EventSchema = new mongoose.Schema({
         type: String,
         default: "unlimited"
     },
+    isActive: {
+        type: Boolean,
+        default: true
+    },
     createdBy: {
-        type: mongoose.Types.ObjectId,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'users'
     }
-    
 })
+
 
 const Event = mongoose.model("event", EventSchema)
 

@@ -5,7 +5,7 @@ export const auth = (req, res, next) => {
     const authHeader = req.headers.authorization
 
     if(!authHeader || !authHeader.startsWith("Bearer ")) {
-        res.status(StatusCodes.UNAUTHORIZED).json({message: "Provide a valid authorization header"})
+        return res.status(StatusCodes.UNAUTHORIZED).json({message: "Provide a valid authorization header"})
     }
 
     try {
@@ -14,6 +14,6 @@ export const auth = (req, res, next) => {
         req.user = {userId: decoded.userId}
         next()
     } catch (error) {
-       res.status(401).json({msg: "Invalid Token"})
+       return res.status(401).json({msg: "Invalid Token"})
     }
 }

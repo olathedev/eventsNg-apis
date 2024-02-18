@@ -8,6 +8,8 @@ const Schema = Joi.object({
     time: Joi.required(),
     eventDate: Joi.required(),
     seatsAvailable: Joi.required(),
+    createdBy: Joi.required()
+
 
 })
 
