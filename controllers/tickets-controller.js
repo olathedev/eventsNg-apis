@@ -10,7 +10,7 @@ export const createTicket = async (req, res, next) => {
     const {userId} = req.user
 
     req.body.eventFor = eventId
-    req.body.user = userId
+    req.body.createdBy = userId
 
     try {
         const event = await Event.findOne({ _id: eventId })

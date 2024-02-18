@@ -24,7 +24,7 @@ const TicketSchema = new mongoose.Schema({
         default: 'unlimited'
     },
 
-    user: {
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     }

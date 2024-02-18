@@ -3,6 +3,7 @@ import Event from "../models/event-model.js"
 import { validateEvent } from "../validators/event-validator.js"
 import { BadRequest, NotFound } from "../errors/index.js"
 import mongoose from "mongoose"
+import TicketModel from "../models/ticket-model.js"
 
 export const discoverEvents = async (req, res, next) => {
 
@@ -105,11 +106,22 @@ export const deleteEvent = async (req, res, next) => {
     }
 }
 
-export const eventStats = async (req, res) => {
-    let stats = await Event.aggregate([
+async function getAggregations(id, model, req) {
+    let stats =  model.aggregate([
         {$match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) }},
-        {$group: {_id: '$isActive', count: {$sum: 1}}}
+        {$group: {_id: id, count: {$sum: 1}}}
     ])
+
+    return stats
+}
+export const eventStats = async (req, res) => {
+    
+    let stats = await getAggregations('$isActive', Event, req)
+    let ticketStats = await getAggregations(null, TicketModel, req)
+
+    // let ticketStat = TicketModel.aggregate([
+    //     {$match: {createdBy: new mongoose.Types}}
+    // ])
 
     stats = stats.reduce((acc, curr) => {
         const {_id: title, count} = curr
@@ -118,9 +130,20 @@ export const eventStats = async (req, res) => {
         return acc
     }, {})
 
+    ticketStats = ticketStats.reduce((acc, curr) => {
+        const {_id: title, count} = curr
+        acc['total'] = count
+
+        return acc
+    }, {})
+
+    console.log(ticketStats);
+
     const defaultStats = {
         isActive: stats.true || 0,
-        notActive: stats.false || 0
+        notActive: stats.false || 0,
+        tickets: ticketStats.total || 0
+        
 
     }
     console.log(defaultStats);
