@@ -18,7 +18,17 @@ export const discoverEvents = async (req, res, next) => {
 }
 
 export const discoverEventsSingle = async (req, res, next) => {
-    res.send("Discover events")
+   const {id} = req.params
+
+   try {
+    const event = await Event.findOne({_id: id})
+    if(!event){
+        throw new NotFound("No Event with this id")
+    }
+    res.status(StatusCodes.OK).json({event})
+   } catch (error) {
+        next(error)
+   }
 }
 
 
@@ -36,6 +46,10 @@ export const createEvent = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+}
+
+export const uploadEventImage = async (req, res, next) => {
+    
 }
 
 export const getcreatedEvents = async (req, res, next) => {
@@ -74,6 +88,8 @@ export const updateEvent = async (req, res, next) => {
         params: {id},
         user: {userId}
     } = req
+
+    req.body.createdBy = userId
 
     try {
         const {error} = validateEvent(req.body)
