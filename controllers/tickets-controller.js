@@ -9,7 +9,7 @@ export const createTicket = async (req, res, next) => {
     const { reservationsAvailable } = req.body
     const {userId} = req.user
 
-    req.body.eventFor = eventId
+    req.body.eventId = eventId
     req.body.createdBy = userId
 
     try {
@@ -40,7 +40,7 @@ export const getTickets = async (req, res, next) => {
     } = req
 
     try {
-        const ticket = await TicketModel.find({eventFor: id, user: userId})
+        const ticket = await TicketModel.find({eventId: id})
         res.status(StatusCodes.OK).json({ticket})
     } catch (error) {
         next(error)

@@ -8,9 +8,8 @@ import TicketModel from "../models/ticket-model.js"
 export const discoverEvents = async (req, res, next) => {
 
    const query = req.query
-
    try {
-    const event = await Event.find()
+    const event = await Event.find().populate('tickets')
     res.status(StatusCodes.OK).json({event})
    } catch (error) {
     next(error)
@@ -19,13 +18,15 @@ export const discoverEvents = async (req, res, next) => {
 
 export const discoverEventsSingle = async (req, res, next) => {
    const {id} = req.params
-
+    
    try {
-    const event = await Event.findOne({_id: id})
-    if(!event){
+    const event = await Event.findById({_id: id})
+        if(!event){
         throw new NotFound("No Event with this id")
     }
-    res.status(StatusCodes.OK).json({event})
+
+    const ticket = await TicketModel.find({eventId: event._id})
+    res.status(StatusCodes.OK).json({event, ticket})
    } catch (error) {
         next(error)
    }

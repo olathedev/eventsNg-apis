@@ -12,9 +12,9 @@ const TicketSchema = new mongoose.Schema({
         required: true,
     },
 
-    eventFor: {
+    eventId: {
        type: mongoose.Schema.Types.ObjectId,
-       ref: "event",
+       ref: "Event",
        required: true 
     }, 
 
@@ -31,6 +31,6 @@ const TicketSchema = new mongoose.Schema({
 })
 
 
-const TicketModel = mongoose.model('ticket', TicketSchema)
+const TicketModel = mongoose.model('Ticket', TicketSchema)
 
 export default TicketModel

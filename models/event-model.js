@@ -29,6 +29,16 @@ const EventSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+
+    tickets: {
+        type: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Ticket'
+            }
+        ]
+    },
+
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -37,6 +47,6 @@ const EventSchema = new mongoose.Schema({
 })
 
 
-const Event = mongoose.model("event", EventSchema)
+const Event = mongoose.model("Event", EventSchema)
 
 export default Event
