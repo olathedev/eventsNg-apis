@@ -32,7 +32,7 @@ const deliverMail = async (username, email, verificationToken) => {
     const info = await transporter.sendMail({
         from: '"Gladys from EventsNg ✨" <olapademicheal3@gmail.com>', // sender address
         to: email, // list of receivers
-        subject: "Email Confirmation", // Subject line
+        subject: "Teekety", // Subject line
         html: emailContent, // html body
     });
 

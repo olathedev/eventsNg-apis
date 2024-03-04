@@ -57,7 +57,7 @@ export const getcreatedEvents = async (req, res, next) => {
     const {user: {userId}} = req
 
     try {
-        const events = await Event.find({createdBy: userId})
+        const events = await Event.find({createdBy: userId}).sort({createdAt: -1})
         res.status(StatusCodes.OK).json({events})
     } catch (error) {
         next(error)
