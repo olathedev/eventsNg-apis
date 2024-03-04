@@ -4,7 +4,6 @@ const TicketSchema = new mongoose.Schema({
     ticketType:{
         type: String,
         required: true,
-        unique: true
     },
 
     price: {

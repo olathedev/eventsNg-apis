@@ -69,3 +69,11 @@ export const updateTicket = async (req, res, next) => {
     }
 
 }
+
+export const purchaseTicket = async (req, res, next) => {
+    try {
+        res.status(StatusCodes.OK).json(req.body)
+    } catch (error) {
+        next(error)
+    }
+}
