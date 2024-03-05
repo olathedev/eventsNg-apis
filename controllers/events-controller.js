@@ -9,7 +9,7 @@ export const discoverEvents = async (req, res, next) => {
 
    const query = req.query
    try {
-    const event = await Event.find().populate('tickets')
+    const event = await Event.find().populate('tickets').sort({createdAt: -1})
     res.status(StatusCodes.OK).json({event})
    } catch (error) {
     next(error)
