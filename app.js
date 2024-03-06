@@ -1,15 +1,31 @@
 import express from "express";
-import morgan from "morgan";
+const app = express()
 import dotenv from "dotenv"
+dotenv.config()
 import connect from "./db/db.js";
-import authROutes from './routes/auth-routes.js'
-import eventRoutes from "./routes/event-routes.js"
+import fs from "fs"
+
+// middlewares
+import morgan from "morgan";
 import { notFound } from "./middlewares/not-found.js";
 import { errorhandler } from "./middlewares/error-handler.js";
 import cors from 'cors'
+import fileUpload from "express-fileupload";
 
-dotenv.config()
-const app = express()
+// routes
+import authROutes from './routes/auth-routes.js'
+import eventRoutes from "./routes/event-routes.js"
+
+// services
+import { v2 as cloudinary } from "cloudinary";
+
+       
+cloudinary.config({ 
+    cloud_name: process.env.CLOUD_NAME, 
+    api_key: process.env.CLOUDINARY_API_KEY, 
+    api_secret: process.env.CLOUDINARY_API_SECRET
+  });
+
 
 
 const start = async () => {
@@ -26,6 +42,25 @@ start()
 app.use(express.json())
 app.use(morgan('dev'))
 app.use(cors())
+app.use(fileUpload({useTempFiles: true}))
+
+app.post('/', async (req, res) => {
+    console.log('file route');
+    console.log(req.files);
+    const image = req.files.image.tempFilePath
+    const result = await cloudinary.uploader.upload(
+        image,
+        {
+            use_filename: true,
+            folder: 'test'
+        }
+    )
+
+    fs.unlinkSync(req.files.image.tempFilePath)
+
+    res.json({image: result.secure_url})
+
+})
 
 app.use("/api/v1/eventsng/auth", authROutes)
 app.use("/api/v1/eventsng/events/", eventRoutes)

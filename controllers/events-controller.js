@@ -4,6 +4,8 @@ import { validateEvent } from "../validators/event-validator.js"
 import { BadRequest, NotFound } from "../errors/index.js"
 import mongoose from "mongoose"
 import TicketModel from "../models/ticket-model.js"
+import { v2 as cloudinary } from "cloudinary"
+import fs from "fs"
 
 export const discoverEvents = async (req, res, next) => {
 
@@ -49,9 +51,23 @@ export const createEvent = async (req, res, next) => {
     }
 }
 
-export const uploadEventImage = async (req, res, next) => {
-    
+export const uploadImage = async (req, res, next) => {
+    try {
+        const image = req.files.image.tempFilePath
+        console.log(image);
+        const result = await cloudinary.uploader.upload(image, {use_filename: true, folder: 'teekety-uploads'})
+
+        console.log(result);
+
+        res.status(StatusCodes.OK).json({image: result.secure_url})
+
+        fs.unlinkSync(image)
+
+    } catch (error) {
+        next(error)
+    }
 }
+
 
 export const getcreatedEvents = async (req, res, next) => {
     const {user: {userId}} = req
