@@ -28,6 +28,7 @@ export const discoverEventsSingle = async (req, res, next) => {
     }
 
     const ticket = await TicketModel.find({eventId: event._id})
+    
     res.status(StatusCodes.OK).json({event, ticket})
    } catch (error) {
         next(error)

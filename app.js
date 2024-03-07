@@ -15,6 +15,7 @@ import fileUpload from "express-fileupload";
 // routes
 import authROutes from './routes/auth-routes.js'
 import eventRoutes from "./routes/event-routes.js"
+import merchRoutes from "./routes/merch-routes.js"
 
 // services
 import { v2 as cloudinary } from "cloudinary";
@@ -64,6 +65,8 @@ app.post('/', async (req, res) => {
 
 app.use("/api/v1/eventsng/auth", authROutes)
 app.use("/api/v1/eventsng/events/", eventRoutes)
+app.use("/api/v1/eventsng/merch/", merchRoutes)
+
 
 app.use(notFound)
 app.use(errorhandler)

@@ -33,19 +33,10 @@ const EventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    tickets: {
-        type: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Ticket'
-            }
-        ]
-    },
-
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'users'
+        ref: 'User'
     }
 }, {timestamps: true})
 

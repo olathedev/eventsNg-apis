@@ -11,7 +11,6 @@ const Schema = Joi.object({
     seatsAvailable: Joi.required(),
     createdBy: Joi.required()
 
-
 })
 
 export const validateEvent = (data) => {

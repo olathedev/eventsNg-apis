@@ -11,7 +11,7 @@ const TicketSchema = new mongoose.Schema({
         required: true,
     },
 
-    eventId: {
+    event: {
        type: mongoose.Schema.Types.ObjectId,
        ref: "Event",
        required: true 

@@ -40,7 +40,7 @@ export const getTickets = async (req, res, next) => {
     } = req
 
     try {
-        const ticket = await TicketModel.find({eventId: id})
+        const ticket = await TicketModel.find({eventId: id}).populate('event')
         res.status(StatusCodes.OK).json({ticket})
     } catch (error) {
         next(error)
