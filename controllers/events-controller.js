@@ -184,3 +184,59 @@ export const eventStats = async (req, res) => {
 
     res.status(200).json({defaultStats})
 }
+
+export const checkout = async (req, res, next) => {
+
+    const body = {
+            tx_ref: "hooli-tx-1920bbtytty",
+            amount: "100",
+            currency: "NGN",
+            redirect_url: "https://webhook.site/9d0b00ba-9a69-44fa-a43d-a82c33c36fdc",
+            meta: {
+                consumer_id: 23,
+                consumer_mac: "92a3-912ba-1192a"
+            },
+            customer: {
+                email: "user@gmail.com",
+                phonenumber: "080****4528",
+                name: "Yemi Desola"
+            },
+            customizations: {
+                title: "Pied Piper Payments",
+                logo: "http://www.piedpiper.com/app/themes/joystick-v27/images/logo.png"
+            }
+    }
+    try {
+        const fwres = await fetch('https://api.flutterwave.com/v3/payments', {
+            method: 'POST',
+            headers: {'Authorization': 'Bearer FLWSECK_TEST-153299f9c859fd770cc5ec70c62fc876-X'},
+            body: JSON.stringify({
+                tx_ref: "olaofdeevisadevlikedev",
+                amount: "100",
+                currency: "NGN",
+                redirect_url: "https://events-ng.vercel.app",
+                meta: {
+                    consumer_id: 23,
+                    consumer_mac: "92a3-912ba-1192a"
+                },
+                customer: {
+                    email: "user@gmail.com",
+                    phonenumber: "080****4528",
+                    name: "Yemi Desola"
+                },
+                customizations: {
+                    title: "Pied Piper Payments",
+                    logo: "http://www.piedpiper.com/app/themes/joystick-v27/images/logo.png"
+                }
+        })
+        })
+
+        console.log(fwres);
+
+        const response = await fwres.json()
+        // console.log(response);
+        res.send(response)
+    } catch (error) {
+        next(error)
+    }
+}

@@ -1,6 +1,6 @@
 import express from "express"
 import { auth } from "../middlewares/auth.js"
-import { createEvent, deleteEvent, discoverEvents, discoverEventsSingle, eventStats, getCreatedEventsSingle, getcreatedEvents, updateEvent, uploadImage } from "../controllers/events-controller.js"
+import { checkout, createEvent, deleteEvent, discoverEvents, discoverEventsSingle, eventStats, getCreatedEventsSingle, getcreatedEvents, updateEvent, uploadImage } from "../controllers/events-controller.js"
 import { createTicket, getTickets, updateTicket } from "../controllers/tickets-controller.js"
 
 const router = express.Router()
@@ -11,6 +11,8 @@ router.get('/discover', discoverEvents)
 
 // get single event
 router.get('/discover/:id', discoverEventsSingle)
+
+router.get('/pay', checkout)
 
 
 // protected routes, for only logged in creators

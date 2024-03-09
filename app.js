@@ -65,7 +65,7 @@ app.post('/', async (req, res) => {
 
 app.use("/api/v1/eventsng/auth", authROutes)
 app.use("/api/v1/eventsng/events/", eventRoutes)
-app.use("/api/v1/eventsng/merch/", merchRoutes)
+app.use("/api/v1/eventsng/merch", merchRoutes)
 
 
 app.use(notFound)
