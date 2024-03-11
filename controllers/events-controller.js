@@ -209,12 +209,12 @@ export const checkout = async (req, res, next) => {
     try {
         const fwres = await fetch('https://api.flutterwave.com/v3/payments', {
             method: 'POST',
-            headers: {'Authorization': 'Bearer FLWSECK_TEST-153299f9c859fd770cc5ec70c62fc876-X'},
+            headers: {'Authorization': `Bearer ${process.env.PAYSTACK_SECRET}`},
             body: JSON.stringify({
                 tx_ref: "olaofdeevisadevlikedev",
                 amount: "100",
                 currency: "NGN",
-                redirect_url: "https://events-ng.vercel.app",
+                
                 meta: {
                     consumer_id: 23,
                     consumer_mac: "92a3-912ba-1192a"
