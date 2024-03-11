@@ -40,7 +40,9 @@ export const getTickets = async (req, res, next) => {
     } = req
 
     try {
-        const ticket = await TicketModel.find({eventId: id}).populate('event')
+        const ticket = await TicketModel.find({event: id})
+        .sort({price: -1})
+        .populate('event')
         res.status(StatusCodes.OK).json({ticket})
     } catch (error) {
         next(error)
@@ -51,7 +53,7 @@ export const getTickets = async (req, res, next) => {
 export const updateTicket = async (req, res, next) => {
     const {params: {id}, params: {eventId}} = req
     
-    req.body.eventFor = eventId
+    req.body.event = eventId
     
     try {
         const {error} = validateTicket(req.body)
