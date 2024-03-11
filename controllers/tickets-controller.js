@@ -9,7 +9,7 @@ export const createTicket = async (req, res, next) => {
     const { reservationsAvailable } = req.body
     const {userId} = req.user
 
-    req.body.eventId = eventId
+    req.body.event = eventId
     req.body.createdBy = userId
 
     try {
