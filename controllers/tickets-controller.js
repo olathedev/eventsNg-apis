@@ -41,8 +41,8 @@ export const getTickets = async (req, res, next) => {
 
     try {
         const ticket = await TicketModel.find({event: id})
-        .sort({price: -1})
-        .populate('event')
+        .sort('price')
+        .populate('event', '_id title')
         res.status(StatusCodes.OK).json({ticket})
     } catch (error) {
         next(error)
