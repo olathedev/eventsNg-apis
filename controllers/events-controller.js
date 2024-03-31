@@ -27,7 +27,7 @@ export const discoverEventsSingle = async (req, res, next) => {
         throw new NotFound("No Event with this id")
     }
 
-    const ticket = await TicketModel.find({event: event._id})
+    const ticket = await TicketModel.find({event: event._id}).sort('price')
 
     res.status(StatusCodes.OK).json({event, ticket})
    } catch (error) {
@@ -93,8 +93,8 @@ export const getCreatedEventsSingle = async (req, res, next) => {
         if(!event) {
             throw new NotFound(`No event found with the id - ${id}`)
         }
-
-        res.status(StatusCodes.OK).json({event})
+        const ticket = await TicketModel.find({event: event._id})
+        res.status(StatusCodes.OK).json({event, ticket})
     } catch (error) {
         next(error)
     }

@@ -101,3 +101,11 @@ export const signin = async (req, res, next) => {
 
 }
 
+export const userProfile = async (req, res, next) => {
+    try {
+        const user = await User.findById({_id: req.user.userId})
+        res.status(StatusCodes.OK).json({user})
+    } catch (error) {
+        next(error)
+    }
+}
